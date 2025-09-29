@@ -1,146 +1,144 @@
 # 📑 Sistema de Recomendação de Filmes
 
-![Python](https://img.shields.io/badge/Python-3.12%2B-blue?logo=python)
-![Status](https://img.shields.io/badge/status-Em%20Desenvolvimento-yellow)
-![License](https://img.shields.io/badge/license-Acad%C3%AAmico-red)
-![Framework](https://img.shields.io/badge/Framework-Tkinter-ff4b4b)
+### Projeto de TCC – Trabalho de Conclusão de Curso
 
 ---
 
-## Descrição
+##  1. Introdução
 
-O **Sistema de Recomendação de Filmes** é um projeto acadêmico desenvolvido para **TCC – Trabalho de Conclusão de Curso**, utilizando **Inteligência Artificial** e **persistência de dados**.
+Este sistema foi desenvolvido como parte de um **Trabalho de Conclusão de Curso (TCC)**, com o objetivo de implementar um **sistema de recomendação de filmes** com autenticação de usuários.
 
-Objetivos do sistema:
-
-* Cadastrar e autenticar usuários em **SQLite**
-* Recomendação personalizada de filmes usando **AutoEncoder**
-* Aplicar filtros de **gênero** e **autor/diretor**
-* Fornecer interface gráfica intuitiva com **Tkinter**
-* Aprendizado de preferências baseado em **filtragem colaborativa**
+O projeto combina **técnicas de Inteligência Artificial (IA)**, **persistência de dados** e **interface gráfica** para oferecer recomendações personalizadas a cada usuário.
 
 ---
 
-## Estrutura do Projeto
+##  2. Objetivos
+
+* Desenvolver um sistema **funcional e interativo** para recomendação de filmes.
+* Aplicar técnicas de **aprendizado de máquina** utilizando **AutoEncoder**.
+* Explorar o conceito de **Persistência Poliglota**: uso de **SQLite** (SQL) e possibilidade de integração futura com **MongoDB** (NoSQL).
+* Fornecer um ambiente com **login e cadastro de usuários**, simulando uma aplicação real.
+
+---
+
+##  3. Tecnologias Utilizadas
+
+* **Linguagem principal:** Python 3.12+
+* **Bibliotecas:**
+
+  * `pandas` – manipulação de dados
+  * `numpy` – operações numéricas
+  * `sqlite3` – banco de dados relacional local
+  * `tkinter` – interface gráfica
+  * `scipy` – matrizes esparsas
+  * `scikit-learn` – divisão dos dados (treino e teste)
+  * `tensorflow.keras` – construção e treinamento do AutoEncoder
+
+---
+
+##  4. Estrutura do Projeto
 
 ```
 sistematcc/
 │── usuarios.db          # Banco SQLite (criado automaticamente)
-│── movies.csv           # Catálogo de filmes (MovieLens)
-│── ratings.csv          # Avaliações dos usuários
+│── movies.csv           # Dataset de filmes (MovieLens)
+│── ratings.csv          # Dataset de avaliações (MovieLens)
 │── sistema.py           # Script principal do TCC
 │── requirements.txt     # Dependências do projeto
 ```
 
 ---
 
-## Requisitos
+##  5. Banco de Dados
 
-* Python **3.12+**
-* Bibliotecas listadas no `requirements.txt`:
+### 5.1 SQLite – Usuários
 
-  * pandas
-  * numpy
-  * sqlite3
-  * tkinter
-  * scipy
-  * scikit-learn
-  * tensorflow
+O sistema utiliza **SQLite**, um banco de dados relacional **leve e local**, para armazenar informações de usuários:
 
-### Instalação das dependências
+```sql
+CREATE TABLE usuarios (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome TEXT NOT NULL,
+    email TEXT NOT NULL UNIQUE,
+    senha TEXT NOT NULL
+);
+```
 
-```bash
+* Cada usuário é identificado pelo **email**
+* O banco `usuarios.db` é criado automaticamente ao iniciar o sistema
+
+**Referência:** [SQLite Official Documentation](https://www.sqlite.org/docs.html)
+
+### 5.2 MovieLens Dataset – Filmes e Avaliações
+
+O sistema utiliza o **MovieLens Small Dataset** (100k ratings) para treinamento do AutoEncoder:
+
+**Arquivos utilizados:**
+
+| Arquivo       | Descrição                                        | Link oficial                                                          |
+| ------------- | ------------------------------------------------ | --------------------------------------------------------------------- |
+| `movies.csv`  | Catálogo de filmes (id, título, gênero)          | [MovieLens Movies](https://grouplens.org/datasets/movielens/latest/)  |
+| `ratings.csv` | Avaliações de usuários (userId, movieId, rating) | [MovieLens Ratings](https://grouplens.org/datasets/movielens/latest/) |
+
+* O dataset é utilizado para construir a **matriz usuário-filme**
+* Permite gerar recomendações personalizadas com base em filtragem colaborativa
+
+---
+
+##  6. Modelo de Recomendação
+
+* Foi implementado um **AutoEncoder** utilizando **TensorFlow/Keras**.
+* A matriz usuário-filme é usada como entrada, permitindo que o modelo aprenda padrões de preferências.
+* Recomendações são geradas a partir da reconstrução da matriz de ratings.
+
+---
+
+##  7. Interface Gráfica (Tkinter)
+
+### 🔹 Tela Inicial
+
+* Opções: **Login** ou **Cadastro**
+
+### 🔹 Cadastro
+
+* Campos: Nome, Email, Senha
+* Grava no banco `usuarios.db`
+
+### 🔹 Login
+
+* Autentica usuário
+* Se válido → recomendações personalizadas
+
+### 🔹 Recomendações
+
+* Lista de filmes sugeridos
+* Filtros disponíveis:
+
+  * **Gênero** (campo de busca parcial)
+  * **Autor** (não disponível no MovieLens, mas mantido para expansão futura)
+
+---
+
+##  8. Fluxo de Uso
+
+1. Instalar dependências:
+
+```powershell
 pip install -r requirements.txt
 ```
 
----
+2. Executar o sistema:
 
-## Compilação e Execução
-
-Para iniciar o sistema:
-
-```bash
+```powershell
 python sistema.py
 ```
 
----
+3. Na interface:
 
-## Cadastro e Login
+* Se não possui conta → **Cadastrar usuário**
+* Se já possui → **Login**
 
-### Cadastro de usuário
+4. Após login → sistema mostra recomendações personalizadas.
 
-```
-Nome: João Silva
-Email: joao@email.com
-Senha: ********
-```
 
-* O usuário é salvo em `usuarios.db` no SQLite
-* O email deve ser único
-
-### Login
-
-* Usuário informa email e senha
-* Sistema valida no banco de dados
-* Se válido → abre a interface de recomendações
-
----
-
-## Recomendações de Filmes
-
-* O sistema utiliza um **AutoEncoder** treinado com **filtragem colaborativa**
-* Recomendações geradas com base nas preferências do usuário
-
-### Exemplo de saída
-
-```
-Filmes recomendados:
-- O Poderoso Chefão (Crime, Drama)
-- A Origem (Ação, Ficção Científica)
-- Forrest Gump (Drama, Romance)
-- Interestelar (Aventura, Ficção Científica)
-- Parasita (Thriller, Drama)
-```
-
-### Filtros
-
-* **Gênero:** pesquisa parcial no campo `genres`
-* **Autor/Diretor:** atualmente não disponível no MovieLens, mas preparado para expansão futura
-
----
-
-## Fluxo de Uso
-
-1. Instalar dependências
-2. Executar o script `sistema.py`
-3. Realizar cadastro ou login
-4. Selecionar filtros (opcional)
-5. Visualizar recomendações personalizadas
-
----
-
-## Contribuição
-
-Projeto acadêmico para **TCC**. Sugestões podem ser feitas via **GitHub** ou discutidas em sala de aula.
-
----
-
-## Licença
-
-Uso acadêmico restrito ao **Trabalho de Conclusão de Curso**.
-
----
-
-## Estado do Projeto
-
-* Cadastro e login funcionando
-* Sistema de recomendação com AutoEncoder implementado
-* Filtros por gênero funcionando
-* Próximos módulos:
-
-  * Hash de senhas para segurança
-  * Salvar modelo treinado (`autoencoder.h5`)
-  * Integração com MongoDB para histórico
-  * Versão Web com Flask ou FastAPI
-
-Quer que eu faça isso agora?
+Quer que eu faça agora?
