@@ -1,10 +1,15 @@
-# 📑 Sistema de Recomendação de Filmes
+# 🎬 Sistema de Recomendação de Filmes
+
+![Python](https://img.shields.io/badge/Python-3.12%2B-blue?logo=python)
+![Status](https://img.shields.io/badge/status-Em%20Desenvolvimento-yellow)
+![License](https://img.shields.io/badge/license-Acad%C3%AAmico-red)
+![Framework](https://img.shields.io/badge/Framework-Tkinter-orange)
 
 ### Projeto de TCC – Trabalho de Conclusão de Curso
 
 ---
 
-##  1. Introdução
+## 1. Introdução
 
 Este sistema foi desenvolvido como parte de um **Trabalho de Conclusão de Curso (TCC)**, com o objetivo de implementar um **sistema de recomendação de filmes** com autenticação de usuários.
 
@@ -12,7 +17,7 @@ O projeto combina **técnicas de Inteligência Artificial (IA)**, **persistênci
 
 ---
 
-##  2. Objetivos
+## 2. Objetivos
 
 * Desenvolver um sistema **funcional e interativo** para recomendação de filmes.
 * Aplicar técnicas de **aprendizado de máquina** utilizando **AutoEncoder**.
@@ -21,9 +26,10 @@ O projeto combina **técnicas de Inteligência Artificial (IA)**, **persistênci
 
 ---
 
-##  3. Tecnologias Utilizadas
+## 3. Tecnologias Utilizadas
 
 * **Linguagem principal:** Python 3.12+
+* **Framework de interface:** Tkinter
 * **Bibliotecas:**
 
   * `pandas` – manipulação de dados
@@ -36,7 +42,7 @@ O projeto combina **técnicas de Inteligência Artificial (IA)**, **persistênci
 
 ---
 
-##  4. Estrutura do Projeto
+## 4. Estrutura do Projeto
 
 ```
 sistematcc/
@@ -49,7 +55,7 @@ sistematcc/
 
 ---
 
-##  5. Banco de Dados
+## 5. Banco de Dados
 
 ### 5.1 SQLite – Usuários
 
@@ -85,15 +91,15 @@ O sistema utiliza o **MovieLens Small Dataset** (100k ratings) para treinamento 
 
 ---
 
-##  6. Modelo de Recomendação
+## 6. Modelo de Recomendação
 
-* Foi implementado um **AutoEncoder** utilizando **TensorFlow/Keras**.
-* A matriz usuário-filme é usada como entrada, permitindo que o modelo aprenda padrões de preferências.
-* Recomendações são geradas a partir da reconstrução da matriz de ratings.
+* Foi implementado um **AutoEncoder** utilizando **TensorFlow/Keras**
+* A matriz usuário-filme é usada como entrada, permitindo que o modelo aprenda padrões de preferências
+* Recomendações são geradas a partir da reconstrução da matriz de ratings
 
 ---
 
-##  7. Interface Gráfica (Tkinter)
+## 7. Interface Gráfica (Tkinter)
 
 ### 🔹 Tela Inicial
 
@@ -115,11 +121,11 @@ O sistema utiliza o **MovieLens Small Dataset** (100k ratings) para treinamento 
 * Filtros disponíveis:
 
   * **Gênero** (campo de busca parcial)
-  * **Autor** (não disponível no MovieLens, mas mantido para expansão futura)
+  * **Autor/Diretor** (campo mantido para expansão futura)
 
 ---
 
-##  8. Fluxo de Uso
+## 8. Fluxo de Uso
 
 1. Instalar dependências:
 
@@ -138,7 +144,4 @@ python sistema.py
 * Se não possui conta → **Cadastrar usuário**
 * Se já possui → **Login**
 
-4. Após login → sistema mostra recomendações personalizadas.
-
-
-Quer que eu faça agora?
+4. Após login → sistema mostra recomendações personalizadas
