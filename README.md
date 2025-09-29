@@ -4,7 +4,7 @@
 
 Este sistema é uma aplicação de **recomendação de filmes** utilizando **AutoEncoder (TensorFlow/Keras)** e persistência de dados com **SQLite**.
 A interface foi desenvolvida em **Tkinter (Python GUI)**, permitindo **cadastro e login de usuários** e apresentando recomendações personalizadas.
-
+O Sistema faz parte de um projeto criado para apresentação de um Projeto de Conclusão de Curso (TCC)
 ---
 
 ##  Tecnologias Utilizadas
@@ -141,4 +141,3 @@ Instalar dependências:
 ```powershell
 pip install -r requirements.txt
 
-#O Sistema faz parte de um projeto criado para apresentação de um Projeto de Conclusão de Curso (TCC)
