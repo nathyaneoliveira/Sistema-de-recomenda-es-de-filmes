@@ -6,40 +6,39 @@ from scipy.sparse import csr_matrix
 from sklearn.model_selection import train_test_split
 from tensorflow.keras import layers, models
 from tkinter import ttk, messagebox
+
+# Carregamento dos dados MovieLens
 
-# -----------------------------
-# 1. Carregamento dos dados MovieLens
-# -----------------------------
 df_movies = pd.read_csv("movies.csv")
 df_ratings_full = pd.read_csv("ratings.csv")
 
 # Converter notas para binário
+
 df_ratings_full['binary_rating'] = (df_ratings_full['rating'] >= 4).astype(int)
 
-# Amostra 30 usuários
+# Mostra 30 usuários
+
 np.random.seed(42)
 sample_users = np.random.choice(df_ratings_full['userId'].unique(), size=30, replace=False)
 df_ratings = df_ratings_full[df_ratings_full['userId'].isin(sample_users)]
 
 # Mapear IDs para índices
+
 user_ids = df_ratings['userId'].unique()
 movie_ids = df_ratings['movieId'].unique()
 
 u2idx = {u: i for i, u in enumerate(user_ids)}
 i2idx = {i: j for j, i in enumerate(movie_ids)}
 idx2i = {v: k for k, v in i2idx.items()}
+
+# Criar matriz usuário-item
 
-# -----------------------------
-# 2. Criar matriz usuário-item
-# -----------------------------
 rows = df_ratings['userId'].map(u2idx)
 cols = df_ratings['movieId'].map(i2idx)
 data = df_ratings['binary_rating'].values
 M = csr_matrix((data, (rows, cols)), shape=(len(user_ids), len(movie_ids))).toarray()
-
-# -----------------------------
-# 3. AutoEncoder
-# -----------------------------
+
+# AutoEncoder
 n_items = M.shape[1]
 
 input_layer = layers.Input(shape=(n_items,))
@@ -59,10 +58,9 @@ autoencoder.fit(
     validation_data=(X_test, X_test),
     verbose=0
 )
+
+# Função de recomendação
 
-# -----------------------------
-# 4. Função de recomendação
-# -----------------------------
 def recommend_autoencoder(user_id, topk=20):
     if user_id not in u2idx:
         populares = df_ratings_full.groupby("movieId")['rating'].count().sort_values(ascending=False).head(topk).index
@@ -80,10 +78,9 @@ def recommend_autoencoder(user_id, topk=20):
     recommended_movieIds = [idx2i[i] for i in recs_idx]
     recs = df_movies[df_movies['movieId'].isin(recommended_movieIds)][['title', 'genres', 'movieId']]
     return recs
+
+# Banco de dados usuários
 
-# -----------------------------
-# 5. Banco de dados usuários
-# -----------------------------
 def init_db():
     conn = sqlite3.connect("usuarios.db")
     cursor = conn.cursor()
@@ -116,10 +113,9 @@ def validar_login(email, senha):
     user = cursor.fetchone()
     conn.close()
     return user
+
+# Interfaces Tkinter
 
-# -----------------------------
-# 6. Interfaces Tkinter
-# -----------------------------
 def abrir_tela_recomendacao(usuario):
     tela_login.destroy()
     rec_window = tk.Tk()
@@ -171,10 +167,9 @@ def abrir_tela_recomendacao(usuario):
     ttk.Button(rec_window, text="Recomendar", command=recomendar_com_filtro).pack(pady=5)
 
     rec_window.mainloop()
-
-# -----------------------------
+
 # Cadastro e Login
-# -----------------------------
+
 def abrir_tela_cadastro():
     def cadastrar():
         nome = entry_nome.get()
@@ -216,10 +211,9 @@ def fazer_login():
         abrir_tela_recomendacao(user)
     else:
         messagebox.showerror("Erro", "Email ou senha inválidos!")
-
-# -----------------------------
+
 # Tela de Login principal
-# -----------------------------
+
 init_db()
 
 tela_login = tk.Tk()
